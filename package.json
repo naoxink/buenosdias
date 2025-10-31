@@ -5,14 +5,14 @@
   "main": "api/saludo.js",
   "scripts": {
     "dev": "vercel dev",
-    "build": "vercel build",
-    "deploy": "vercel deploy"
+    "build": "echo \"skip build\"",
+    "start": "node api/saludo.js"
   },
   "dependencies": {
     "vercel": "^23.0.0"
   },
   "engines": {
-    "node": ">=14.x"
+    "node": ">=16"
   },
   "license": "MIT"
 }
