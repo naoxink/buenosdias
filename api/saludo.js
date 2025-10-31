@@ -19,5 +19,6 @@ module.exports = (req, res) => {
     const fraseSeleccionada = frases[Math.floor(Math.random() * frases.length)];
     const mensaje = fraseSeleccionada.replace("::dia_semana::", diaSemana);
 
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.status(200).send(mensaje);
 };

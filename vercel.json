@@ -7,9 +7,7 @@
     }
   },
   "routes": [
-    {
-      "src": "/api/saludo",
-      "dest": "/api/saludo.js"
-    }
+    { "src": "/", "dest": "/api/saludo" },
+    { "src": "/$", "dest": "/api/saludo" }
   ]
 }

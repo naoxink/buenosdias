@@ -1,5 +1,5 @@
 {
-  "name": "buenos-dias-api",
+  "name": "buenosdias",
   "version": "1.0.0",
   "description": "Proyecto para desplegar una función serverless en Vercel que devuelve un saludo con el día de la semana.",
   "main": "api/saludo.js",
