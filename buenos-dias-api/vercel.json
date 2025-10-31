@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "functions": {
+    "api/saludo.js": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/saludo",
+      "dest": "/api/saludo.js"
+    }
+  ]
+}

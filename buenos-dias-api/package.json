@@ -1,0 +1,18 @@
+{
+  "name": "buenos-dias-api",
+  "version": "1.0.0",
+  "description": "Proyecto para desplegar una función serverless en Vercel que devuelve un saludo con el día de la semana.",
+  "main": "api/saludo.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "deploy": "vercel deploy"
+  },
+  "dependencies": {
+    "vercel": "^23.0.0"
+  },
+  "engines": {
+    "node": ">=14.x"
+  },
+  "license": "MIT"
+}
