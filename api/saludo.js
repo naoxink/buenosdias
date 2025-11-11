@@ -12,6 +12,14 @@ module.exports = (req, res) => {
         "Que este ::dia_semana:: traiga calma y alegría; si alguien necesita una siesta, que llegue la cafeína 💤☕.",
         "¡Hola a todos! Que el ::dia_semana:: nos trate bien y nos deje motivos para celebrar en familia 💪❤️.",
         "¡Bendiciones en este ::dia_semana::! Que la semana vaya genial y esté llena de energía positiva ☕💪.",
+        "Mañana es un nuevo lienzo en blanco, ¡pinta tu mejor obra hoy ::dia_semana::! 🎨✨",
+        "La vida es un café corto, pero disfrútalo mucho — ¡Feliz ::dia_semana::! ☕😊",
+        "¡Buenos días campeonas y campeones! Que hoy seamos versión mejorada de ayer 💪🌟",
+        "La gratitud es el mejor desayuno — ¡Gracias por este nuevo ::dia_semana::! 🙏❤️",
+        "¡Hoy es nuestro día! Hagamos que ::dia_semana:: sea memorable 🌈✨",
+        "¡Buenos días! Cada ::dia_semana:: es una oportunidad para brillar 🌟✨",
+        "Que la magia del ::dia_semana:: nos acompañe todo el día, familia ✨💫",
+        "¡Despierta con actitud! Hoy es ::dia_semana:: y hay mucho por conquistar 🚀💪",
         "Καλημέρα, οικογένειά μου! ¡Buenos días familia!"
     ];
 
