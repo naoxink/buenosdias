@@ -37,6 +37,37 @@ module.exports = async (req, res) => {
     }
 
     // --------------------------------------
+    // Función: generarHashDia
+    // Genera un hash corto (10 caracteres) basado en la fecha ISO (YYYY-MM-DD)
+    // --------------------------------------
+    function generarHashDia() {
+        const s = new Date().toISOString().slice(0, 10);
+        let h1 = 0x9e3779b97f4a7c15n;
+        let h2 = 0x6a09e667f3bcc908n;
+
+        for (let c of s) {
+            const x = BigInt(c.charCodeAt(0));
+            h1 = (h1 ^ x) * 0xbf58476d1ce4e5b9n;
+            h2 = (h2 + x) * 0x94d049bb133111ebn;
+        }
+
+        let h = (h1 ^ h2) & ((1n << 64n) - 1n);
+
+        const chars = [];
+        for (let i = 33; i <= 126; i++) chars.push(String.fromCharCode(i));
+
+        let out = "";
+        const base = BigInt(chars.length);
+
+        for (let i = 0; i < 10; i++) {
+            out += chars[Number(h % base)];
+            h = h / base;
+        }
+
+        return out;
+    }
+
+    // --------------------------------------
     // 3) TUS ARRAYS ORIGINALES + NUEVOS
     // --------------------------------------
     const frasesSets = {
@@ -105,6 +136,16 @@ module.exports = async (req, res) => {
     const fraseSeleccionada = frasesDelDia[Math.floor(Math.random() * frasesDelDia.length)];
     const mensaje = fraseSeleccionada.replace(/::dia_semana::/g, diaSemana);
 
+    let mensajeFinal = mensaje;
+    if (target === 'amigos') {
+        try {
+            mensajeFinal = `${mensaje}\n\nHash del día: ${generarHashDia()}`;
+        } catch (e) {
+            // si algo falla con BigInt o similar, mantenemos el mensaje original
+            mensajeFinal = mensaje;
+        }
+    }
+
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.status(200).send(mensaje);
+    res.status(200).send(mensajeFinal);
 };
