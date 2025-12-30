@@ -46,13 +46,9 @@ module.exports = {
     "Si la compilación tarda, aprovecha para estirarte y respirar. 🧘",
     "Bug nuevo: comportamiento inesperado. Solución inmediata: café y ticket. ☕️📝",
     "Objetivo del día: que el error 500 no sea culpa nuestra. 🚫5️⃣0️⃣0️⃣",
-    // Programación + día/clima
-    "Si hoy ::dia_semana:: y ::clima::, despliega con cuidado: scripts de rollback listos. ☔💻",
-    "Deploy en ::dia_semana:: con ::clima:: revuelto = plan de contingencia y café extra. ☕⚠️",
+    // Programación + día
     "Si el build peta en ::dia_semana::, respira y divide los problemas. 🧪🔧",
-    "El servidor está como el tiempo (::clima::): impredecible; hoy toca parchear. 🔧🌦️",
-    "Hoy ::dia_semana:: me siento como un merge conflict: paciencia y pedir ayuda. 🤝",
-    "Con ::clima:: adverso, evita deploys arriesgados; mejor pruebas locales y rollback preparado. 🌧️🔁"
+    "Hoy ::dia_semana:: me siento como un merge conflict: paciencia y pedir ayuda. 🤝"
   ],
 
   frasesEspirituales: [
@@ -77,6 +73,11 @@ module.exports = {
     "::clima:: y ::temperatura::°C — adapta la agenda y evita planes al aire libre.",
     "Con ::clima::, si puedes, quédate en casa y aprovecha para desconectar. 🏡",
     "Si hace fresco y ::clima::, una capa más y ánimo; si hace calor, agua y paciencia.",
-    "Hoy ::clima:: — recuerda avisar a quien venga visita y llevar solución rápida. 💬"
+    "Hoy ::clima:: — recuerda avisar a quien venga visita y llevar solución rápida. 💬",
+    // Programación + clima
+    "Si hoy ::dia_semana:: y ::clima::, despliega con cuidado: scripts de rollback listos. ☔💻",
+    "Deploy en ::dia_semana:: con ::clima:: revuelto = plan de contingencia y café extra. ☕⚠️",
+    "El servidor está como el tiempo (::clima::): impredecible; hoy toca parchear. 🔧🌦️",
+    "Con ::clima:: adverso, evita deploys arriesgados; mejor pruebas locales y rollback preparado. 🌧️🔁"
   ]
 };
