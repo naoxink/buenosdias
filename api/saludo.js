@@ -104,15 +104,15 @@ module.exports = async (req, res) => {
     // Base + estilos nuevos
     let frasesDelDia = [
         ...frases,
-        ...frasesHumor,
-        ...frasesEspirituales,
-        ...frasesHumanas
+        ...frasesHumor
+        //...frasesEspirituales,
+        //...frasesHumanas
     ];
 
     // Frases especiales según día
-    if (diaActual === 1) frasesDelDia.push(...frasesLunes);
-    if (diaActual === 4) frasesDelDia.push(...frasesJueves);
-    if (diaActual === 5) frasesDelDia.push(...frasesViernes);
+    if (diaActual === 1) frasesDelDia = frasesLunes // frasesDelDia.push(...frasesLunes);
+    if (diaActual === 4) frasesDelDia = frasesJueves // frasesDelDia.push(...frasesJueves);
+    if (diaActual === 5) frasesDelDia = frasesViernes // frasesDelDia.push(...frasesViernes);
 
     // --------------------------------------
     // 5) Añadir clima si se obtiene a tiempo
