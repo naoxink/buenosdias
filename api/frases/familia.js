@@ -2,35 +2,36 @@
 module.exports = {
   frases: [
         "¡A los buenos ::dia_semana::!",
+        "¡Buenos días! Al rico ::dia_semana:: 🧉",
         "¡Buenos días, familia! Hoy es ::dia_semana:: — que el día venga con energía y sonrisas 💪☕.",
         "¡Feliz ::dia_semana::, familia! Que el café esté caliente y los abrazos sean muchos ☕❤️.",
         "¡Hola familia! Que este ::dia_semana:: nos llene de paz, risas y buenos recuerdos 💪🌞.",
-        "¡Buen día, equipo familiar! Hoy, ::dia_semana::, a dar lo mejor con fuerza y cariño 💪☕.",
-        "Despierten, familia: es ::dia_semana::. Que la energía no falte y el café sí ☕💪.",
-        "¡Que tengan un hermoso ::dia_semana::! Abrazos virtuales y mucho ánimo para todos ❤️☕.",
+        "¡Buen día, team family! Hoy, ::dia_semana::, a dar lo mejor con fuerza y cariño 💪☕.",
+        "¡Arriba familia! es ::dia_semana::. Que la energía no falte y el café sí ☕💪.",
+        "¡Feliz ::dia_semana::! Abrazos virtuales y mucho ánimo para todos ❤️☕.",
         "Familia, feliz ::dia_semana:: — que las pequeñas cosas alegren el día 💪😊.",
         "¡Buenos días! Hoy es ::dia_semana::: recarguen pilas, tomen su cafecito y sonrían ☕💪.",
-        "Que este ::dia_semana:: traiga calma y alegría; si alguien necesita una siesta, que llegue la cafeína 💤☕.",
-        "¡Hola a todos! Que el ::dia_semana:: nos trate bien y nos deje motivos para celebrar en familia 💪❤️.",
+        "¡Good morning! Que este ::dia_semana:: traiga calma y alegría; si alguien necesita una siesta, que llegue la cafeína 💤☕.",
+        "¡Hola a todis! Que el ::dia_semana:: nos trate bien y nos deje motivos para celebrar en familia 💪❤️.",
         "¡Bendiciones en este ::dia_semana::! Que la semana vaya genial y esté llena de energía positiva ☕💪.",
-        "Mañana es un nuevo lienzo en blanco, ¡pinta tu mejor obra hoy ::dia_semana::! 🎨✨",
-        "La vida es un café corto, pero disfrútalo mucho — ¡Feliz ::dia_semana::! ☕😊",
-        "¡Buenos días campeonas y campeones! Que hoy seamos versión mejorada de ayer 💪🌟",
-        "La gratitud es el mejor desayuno — ¡Gracias por este nuevo ::dia_semana::! 🙏❤️",
-        "¡Hoy es nuestro día! Hagamos que ::dia_semana:: sea memorable 🌈✨",
+        "Saludos mañaneros. Mañana es un nuevo lienzo en blanco, ¡pinta tu mejor obra hoy ::dia_semana::! 🎨✨",
+        "¡A los buenos días! La vida es un café corto, pero disfrútalo mucho — ¡Feliz ::dia_semana::! ☕😊",
+        "¡Buenos días campeonis! Que hoy seamos versión mejorada de ayer 💪🌟",
+        "Καλημέρα! La gratitud es el mejor desayuno — ¡Gracias por este nuevo ::dia_semana::! 🙏❤️",
+        "¡Vamooooooooooo! 💪 ¡Hoy es nuestro día! Hagamos que ::dia_semana:: sea memorable 🌈✨",
         "¡Buenos días! Cada ::dia_semana:: es una oportunidad para brillar 🌟✨",
-        "Que la magia del ::dia_semana:: nos acompañe todo el día, familia ✨💫",
+        "¡Saludos! Que la magia del ::dia_semana:: nos acompañe todo el día, familia ✨💫",
         "¡Despierta con actitud! Hoy es ::dia_semana:: y hay mucho por conquistar 🚀💪",
         "Καλημέρα, οικογένειά μου! ¡Buenos días familia!"
   ],
 
   frasesLunes: [
-    "Arrancamos la semana: poco a poco y con lo importante claro.",
-    "Lunes: pon prioridades ✅ y quita ruido — una cosa a la vez.",
-    "Que este lunes sea práctico: menos estrés y más listas útiles.",
-    "Buen lunes. Respira 🌬️, planifica y avanza lo que puedas hoy.",
-    "Empezamos otra semana; cuidemos la energía para llegar al viernes.",
-    "Lunes práctico: simplifica y no te exijas más de lo necesario."
+    "¡Buenos días! Arrancamos la semana: poco a poco y con lo importante claro.",
+    "Al buen lunes: pon prioridades ✅ y quita ruido — una cosa a la vez.",
+    "Buenos días, tareas para hoy lunes: ✅ menos estrés ✅ más felicidad",
+    "Feliz lunes. Respira 🌬️, planifica y avanza lo que puedas hoy.",
+    "¡Buenos días! Empezamos otra semana; cuidemos la energía para llegar al viernes.",
+    "Buenos días, vamos con un lunes práctico: simplifica y no te exijas más de lo necesario."
   ],
 
   frasesJueves: [
@@ -41,8 +42,8 @@ module.exports = {
     "Buen jueves — un último empujón, pero con cabeza.",
     "Casi viernes: terminemos lo urgente 💪 y guardemos fuerzas.",
     "Jueves para ordenar: lo que no, se queda para mañana. 📦",
-    "Que el jueves nos deje la sensación de haber avanzado algo concreto.",
-    "Ánimo: un día más y merecemos el respiro."
+    "¡Feliz madrugón! Que el jueves nos deje la sensación de haber avanzado algo concreto.",
+    "Jueves ya. Ánimo: un día más y merecemos el respiro."
   ],
 
   frasesViernes: [
@@ -50,7 +51,6 @@ module.exports = {
     "Buen viernes — ojalá tengáis un rato para desconectar y respirar.",
     "Ya es viernes: plan pequeño 🎯, efecto grande.",
     "Viernes tranquilo: sin prisas, que lo hecho ya está hecho.",
-    "Que el viernes sirva para soltar lo acumulado y estar con quien queráis.",
     "Hemos llegado al viernes: recoged lo hecho y preparaos para descansar. ✅",
     "VIERNEEEEEEEEEEEEEESSSS!! VAMOOOOOOOOOOOOOOOOOOOO!!🤘🏻🔥🏖️ (buenos días xD)"
   ],
