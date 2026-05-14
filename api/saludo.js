@@ -117,7 +117,7 @@ module.exports = async (req, res) => {
     // --------------------------------------
     // 5) Añadir clima si se obtiene a tiempo
     // --------------------------------------
-    const clima = await obtenerClima(lat, lon);
+    /*const clima = await obtenerClima(lat, lon);
 
     if (clima) {
         const tipoClima = interpretarClima(clima.code);
@@ -128,7 +128,7 @@ module.exports = async (req, res) => {
         );
 
         frasesDelDia.push(...frasesClimaProcesadas);
-    }
+    }*/
 
     // --------------------------------------
     // 6) Selección final
