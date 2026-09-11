@@ -26,13 +26,22 @@ module.exports = async (req, res) => {
     }
 
     function interpretarClima(code) {
-        if (code === 0) return "soleado";
-        if (code >= 1 && code <= 3) return "nublado";
-        if (code >= 45 && code <= 48) return "con niebla";
-        if (code >= 51 && code <= 67) return "lluvioso";
-        if (code >= 71 && code <= 86) return "nevado";
-        if (code >= 95) return "con tormenta";
-        return "algo raro por ahí afuera";
+        if (code === 0) return "despejado";
+        if ([1, 2].includes(code)) return "parcialmente nublado";
+        if (code === 3) return "nublado";
+    
+        if ([45, 48].includes(code)) return "con niebla";
+    
+        if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code))
+            return "lluvioso";
+    
+        if ([71, 73, 75, 77, 85, 86].includes(code))
+            return "nevado";
+    
+        if ([95, 96, 99].includes(code))
+            return "con tormenta";
+    
+        return "con tiempo variable";
     }
 
     // --------------------------------------
@@ -214,7 +223,7 @@ module.exports = async (req, res) => {
     // --------------------------------------
     let mensaje = await generarFraseIA(target, diaSemana, climaTexto);
 
-    if (false && !mensaje) {
+    if (!mensaje) {
         // ---- FALLBACK: exactamente la lógica original de selección estática ----
         let frasesDelDia = [
             ...frases,
