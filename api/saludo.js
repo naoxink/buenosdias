@@ -214,7 +214,7 @@ module.exports = async (req, res) => {
     // --------------------------------------
     let mensaje = await generarFraseIA(target, diaSemana, climaTexto);
 
-    if (!mensaje) {
+    if (false && !mensaje) {
         // ---- FALLBACK: exactamente la lógica original de selección estática ----
         let frasesDelDia = [
             ...frases,
