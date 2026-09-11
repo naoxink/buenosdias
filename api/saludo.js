@@ -1,6 +1,5 @@
 module.exports = async (req, res) => {
 
-
     // --------------------------------------
     // 1) Configura tu ubicación
     // --------------------------------------
@@ -68,7 +67,7 @@ module.exports = async (req, res) => {
     }
 
     // --------------------------------------
-    // 3) TUS ARRAYS ORIGINALES + NUEVOS
+    // 3) TUS ARRAYS ORIGINALES (se usan como fallback)
     // --------------------------------------
     const frasesSets = {
         familia: require('./frases/familia'),
@@ -79,19 +78,12 @@ module.exports = async (req, res) => {
     const selected = frasesSets[target] || frasesSets.familia;
 
     const frases = selected.frases;
-
     const frasesLunes = selected.frasesLunes;
-
     const frasesJueves = selected.frasesJueves;
-
     const frasesViernes = selected.frasesViernes;
-
     const frasesHumor = selected.frasesHumor;
-
     const frasesEspirituales = selected.frasesEspirituales;
-
     const frasesHumanas = selected.frasesHumanas;
-
     const frasesClima = selected.frasesClima;
 
     // --------------------------------------
@@ -101,47 +93,159 @@ module.exports = async (req, res) => {
     const diaActual = new Date().getDay();
     const diaSemana = diasSemana[diaActual];
 
-    // Base + estilos nuevos
-    let frasesDelDia = [
-        ...frases,
-        ...frasesHumor
-        //...frasesEspirituales,
-        //...frasesHumanas
-    ];
+    // --------------------------------------
+    // 5) Generación con Gemini (IA), con fallback a frases estáticas
+    // --------------------------------------
 
-    // Frases especiales según día
-    if (diaActual === 1) frasesDelDia = frasesLunes // frasesDelDia.push(...frasesLunes);
-    if (diaActual === 4) frasesDelDia = frasesJueves // frasesDelDia.push(...frasesJueves);
-    if (diaActual === 5) frasesDelDia = frasesViernes // frasesDelDia.push(...frasesViernes);
+    // Igual que en generar-pregunta.js: los nombres de modelo de Gemini cambian
+    // con frecuencia, así que probamos una lista de candidatos en orden.
+    const MODELOS_CANDIDATOS = [
+        process.env.GEMINI_MODEL,
+        'gemini-flash-latest',
+        'gemini-3.6-flash',
+        'gemini-2.5-flash'
+    ].filter(Boolean);
+
+    async function llamarGemini(modelo, apiKey, prompt, signal) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
+        const respuesta = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            signal,
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                    temperature: 1.1,
+                    maxOutputTokens: 200,
+                    thinkingConfig: { thinkingBudget: 0 }
+                }
+            })
+        });
+
+        if (!respuesta.ok) {
+            const detalle = await respuesta.text();
+            const error = new Error(`Error de la API de Gemini con "${modelo}" (${respuesta.status}): ${detalle}`);
+            error.status = respuesta.status;
+            throw error;
+        }
+
+        const datos = await respuesta.json();
+        const texto = datos.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+        if (!texto) {
+            throw new Error(`La API de Gemini ("${modelo}") no devolvió texto en la respuesta.`);
+        }
+        // Quitamos comillas envolventes y saltos de línea sobrantes
+        return texto.replace(/^["'“”]+|["'“”]+$/g, '').replace(/\n+/g, ' ').trim();
+    }
+
+    function elegirEjemplos(lista, n) {
+        const copia = [...lista];
+        const elegidos = [];
+        for (let i = 0; i < n && copia.length > 0; i++) {
+            const idx = Math.floor(Math.random() * copia.length);
+            elegidos.push(copia.splice(idx, 1)[0].replace(/::dia_semana::/g, diaSemana));
+        }
+        return elegidos;
+    }
+
+    function construirPrompt(target, diaSemana, climaTexto) {
+        const tonoPorTarget = {
+            familia: 'cercano, cálido y positivo, como un mensaje de buenos días a un grupo de familia. Puede llevar 1-2 emojis, sin pasarse.',
+            amigos: 'informal, desenfadado y con humor cotidiano, como un mensaje a un grupo de colegas/amigos. Puede llevar 1-2 emojis o algún toque irónico.'
+        };
+        const tono = tonoPorTarget[target] || tonoPorTarget.familia;
+
+        const ejemplos = elegirEjemplos(frases, 4);
+
+        let prompt = `Escribe UN SOLO mensaje breve de buenos días en español (españa), en tono ${tono}\n`;
+        prompt += `Hoy es ${diaSemana}. Menciona el día de forma natural, sin sonar forzado.\n`;
+        if (climaTexto) {
+            prompt += `Dato de contexto (opcional, úsalo solo si aporta y de forma natural, no lo fuerces): ${climaTexto}.\n`;
+        }
+        prompt += `Aquí tienes ejemplos del tono y estilo que ya se usan (no los copies, son solo referencia de voz):\n`;
+        ejemplos.forEach(e => { prompt += `- ${e}\n`; });
+        prompt += `\nRequisitos:\n`;
+        prompt += `- Una sola frase o dos cortas como máximo, nada de párrafos largos.\n`;
+        prompt += `- Que suene natural y variado, no como una plantilla repetida.\n`;
+        prompt += `- Sin comillas envolventes ni explicaciones.\n`;
+        prompt += `Devuelve SOLO el mensaje final, listo para enviar.`;
+
+        return prompt;
+    }
+
+    async function generarFraseIA(target, diaSemana, climaTexto) {
+        const apiKey = process.env.GEMINI_API_KEY;
+        if (!apiKey) return null;
+
+        const prompt = construirPrompt(target, diaSemana, climaTexto);
+
+        for (const modelo of MODELOS_CANDIDATOS) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 6000);
+            try {
+                const texto = await llamarGemini(modelo, apiKey, prompt, controller.signal);
+                clearTimeout(timeoutId);
+                if (texto) return texto;
+            } catch (err) {
+                clearTimeout(timeoutId);
+                console.warn(`[saludo] Fallo con el modelo "${modelo}": ${err.message}`);
+            }
+        }
+        return null;
+    }
 
     // --------------------------------------
-    // 5) Añadir clima si se obtiene a tiempo
+    // 6) Clima (no bloqueante: si falla, seguimos sin él)
     // --------------------------------------
-    /*const clima = await obtenerClima(lat, lon);
-
-    if (clima) {
-        const tipoClima = interpretarClima(clima.code);
-
-        // Añadimos las frases de clima al pool general
-        const frasesClimaProcesadas = frasesClima.map(f =>
-            f.replace(/::clima::/g, tipoClima).replace(/::temperatura::/g, clima.temp)
-        );
-
-        frasesDelDia.push(...frasesClimaProcesadas);
-    }*/
+    let climaDatos = null;
+    let climaTexto = null;
+    try {
+        climaDatos = await obtenerClima(lat, lon);
+        if (climaDatos) {
+            climaTexto = `hoy está ${interpretarClima(climaDatos.code)} y hay ${climaDatos.temp}°C`;
+        }
+    } catch (e) {
+        climaDatos = null;
+        climaTexto = null;
+    }
 
     // --------------------------------------
-    // 6) Selección final
+    // 7) Intentar generar con IA; si falla, usar el sistema estático original
     // --------------------------------------
-    const fraseSeleccionada = frasesDelDia[Math.floor(Math.random() * frasesDelDia.length)];
-    const mensaje = fraseSeleccionada.replace(/::dia_semana::/g, diaSemana);
+    let mensaje = await generarFraseIA(target, diaSemana, climaTexto);
 
+    if (!mensaje) {
+        // ---- FALLBACK: exactamente la lógica original de selección estática ----
+        let frasesDelDia = [
+            ...frases,
+            ...frasesHumor
+            //...frasesEspirituales,
+            //...frasesHumanas
+        ];
+
+        if (diaActual === 1) frasesDelDia = frasesLunes;
+        if (diaActual === 4) frasesDelDia = frasesJueves;
+        if (diaActual === 5) frasesDelDia = frasesViernes;
+
+        if (climaDatos && frasesClima && frasesClima.length) {
+            const frasesClimaProcesadas = frasesClima.map(f =>
+                f.replace(/::clima::/g, interpretarClima(climaDatos.code)).replace(/::temperatura::/g, climaDatos.temp)
+            );
+            frasesDelDia = [...frasesDelDia, ...frasesClimaProcesadas];
+        }
+
+        const fraseSeleccionada = frasesDelDia[Math.floor(Math.random() * frasesDelDia.length)];
+        mensaje = fraseSeleccionada.replace(/::dia_semana::/g, diaSemana);
+    }
+
+    // --------------------------------------
+    // 8) Hash del día (solo para "amigos"), igual que antes
+    // --------------------------------------
     let mensajeFinal = mensaje;
     if (target === 'amigos') {
         try {
             mensajeFinal = `${mensaje}\n\nHash del día: ${generarHashDia()}`;
         } catch (e) {
-            // si algo falla con BigInt o similar, mantenemos el mensaje original
             mensajeFinal = mensaje;
         }
     }
