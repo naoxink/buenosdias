@@ -125,7 +125,7 @@ module.exports = async (req, res) => {
                 generationConfig: {
                     maxOutputTokens: 200,
                     thinkingConfig: {
-                        thinkingLevel: "minimal"
+                        thinkingLevel: "low"
                     }
                 }
             })
