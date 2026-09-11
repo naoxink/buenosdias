@@ -111,6 +111,7 @@ module.exports = async (req, res) => {
     const MODELOS_CANDIDATOS = [
         process.env.GEMINI_MODEL,
         'gemini-flash-latest',
+        'gemini-3.7-flash',
         'gemini-3.6-flash'
     ].filter(Boolean);
 
