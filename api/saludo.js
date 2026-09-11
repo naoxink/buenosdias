@@ -102,8 +102,7 @@ module.exports = async (req, res) => {
     const MODELOS_CANDIDATOS = [
         process.env.GEMINI_MODEL,
         'gemini-flash-latest',
-        'gemini-3.6-flash',
-        'gemini-2.5-flash'
+        'gemini-3.6-flash'
     ].filter(Boolean);
 
     async function llamarGemini(modelo, apiKey, prompt, signal) {
@@ -115,9 +114,10 @@ module.exports = async (req, res) => {
             body: JSON.stringify({
                 contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
-                    temperature: 1.1,
                     maxOutputTokens: 200,
-                    thinkingConfig: { thinkingBudget: 0 }
+                    thinkingConfig: {
+                        thinkingLevel: "minimal"
+                    }
                 }
             })
         });
