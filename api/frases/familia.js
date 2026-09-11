@@ -47,11 +47,8 @@ module.exports = {
   ],
 
   frasesViernes: [
-    "Viernes: cerramos la semana, tomad tiempo para recuperaros.",
-    "Buen viernes — ojalá tengáis un rato para desconectar y respirar.",
-    "Ya es viernes: plan pequeño 🎯, efecto grande.",
-    "Viernes tranquilo: sin prisas, que lo hecho ya está hecho.",
-    "Hemos llegado al viernes: recoged lo hecho y preparaos para descansar. ✅",
+    "Buen viernes, espero que tengáis un rato para desconectar y respirar.",
+    "Viernes prefinde. ¡A predisfrutar!",
     "VIERNEEEEEEEEEEEEEESSSS!! VAMOOOOOOOOOOOOOOOOOOOO!!🤘🏻🔥🏖️ (buenos días xD)"
   ],
 
