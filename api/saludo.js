@@ -115,38 +115,45 @@ module.exports = async (req, res) => {
         'gemini-3.6-flash'
     ].filter(Boolean);
 
-    async function llamarGemini(modelo, apiKey, prompt, signal) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
-        const respuesta = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            signal,
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                    maxOutputTokens: 200,
-                    thinkingConfig: {
-                        thinkingLevel: "low"
-                    }
+async function llamarGemini(modelo, apiKey, prompt, signal) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${apiKey}`;
+    const respuesta = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal,
+        body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+                maxOutputTokens: 1000,
+                thinkingConfig: {
+                    thinkingLevel: "off"
                 }
-            })
-        });
+            }
+        })
+    });
 
-        if (!respuesta.ok) {
-            const detalle = await respuesta.text();
-            const error = new Error(`Error de la API de Gemini con "${modelo}" (${respuesta.status}): ${detalle}`);
-            error.status = respuesta.status;
-            throw error;
-        }
-
-        const datos = await respuesta.json();
-        const texto = datos.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-        if (!texto) {
-            throw new Error(`La API de Gemini ("${modelo}") no devolvió texto en la respuesta.`);
-        }
-        // Quitamos comillas envolventes y saltos de línea sobrantes
-        return texto.replace(/^["'“”]+|["'“”]+$/g, '').replace(/\n+/g, ' ').trim();
+    if (!respuesta.ok) {
+        const detalle = await respuesta.text();
+        const error = new Error(`Error de la API de Gemini con "${modelo}" (${respuesta.status}): ${detalle}`);
+        error.status = respuesta.status;
+        throw error;
     }
+
+    const datos = await respuesta.json();
+    
+    // Filtrar los bloques para descartar posibles partes de pensamiento (thought: true) si la API las devuelve
+    const candidate = datos.candidates?.[0];
+    const parts = candidate?.content?.parts || [];
+    const textPart = parts.find(p => !p.thought && p.text) || parts[0];
+    const texto = textPart?.text?.trim();
+
+    if (!texto) {
+        throw new Error(`La API de Gemini ("${modelo}") no devolvió texto en la respuesta.`);
+    }
+
+    return texto.replace(/^["'“”]+|["'“”]+$/g, '').replace(/\n+/g, ' ').trim();
+}
+
 
     function elegirEjemplos(lista, n) {
         const copia = [...lista];
